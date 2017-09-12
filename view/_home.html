@@ -36,42 +36,58 @@
 </div><!-- End of Container -->
 
 
+
+
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<p>This is a small modal.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
 <script>
 	var v_category;
+	var myModal;
 
 	$(function(){
 		v_category = $('#v_category');
-
-		var model = {
-			'category': [
-			{ 'title':'คณิตศาสตร์', 'img':'http://bet.obec.go.th/dlit/images/exem.jpg', 'status':'ยังไม่เคยทำ' },
-			{ 'title':'ภาษาไทย', 'img':'http://bet.obec.go.th/dlit/images/exem.jpg', 'status':'ยังไม่เคยทำ' },
-			{ 'title':'อังกฤษ', 'img':'http://bet.obec.go.th/dlit/images/exem.jpg', 'status':'ยังไม่เคยทำ' },
-			{ 'title':'สังคม', 'img':'http://bet.obec.go.th/dlit/images/exem.jpg', 'status':'ยังไม่เคยทำ' },
-			{ 'title':'วิทยาศาสตร์', 'img':'http://bet.obec.go.th/dlit/images/exem.jpg', 'status':'ยังไม่เคยทำ' },
-			],
-		}
-
-		setTimeout(function(){ Render_V_Category(model.category) }, 50);
-		
+		myModal = $('#myModal');
+		Render_V_Category()
 	});
 
-	function Render_V_Category(model_category){
-		var html = '';
+	function OpenModal(category_id){
+		myModal.modal();
+		myModal.find('.modal-title').html('DOM')
+		myModal.find('.modal-body').html('DOM')
+	}
 
-		$.each(model_category, function( index, value ) {
-			html = html+'<div class="col-xs-18 col-sm-6 col-md-3">'+
-			'<div class="thumbnail">'+
-			'<img src="'+ value.img +'">'+
-			'<div class="caption">'+
-			'<h4>'+ value.title +'</h4>'+
-			'<a href="#" class="btn btn-default btn-xs pull-right" role="button"><i class="glyphicon glyphicon-edit"></i> ทำข้อสอบ</a> '+
-			'<a href="#" class="btn btn-default btn-xs" role="button">'+ value.status +'</a> '+
-			'</div>'+
-			'</div>'+
-			'</div>';
+	function Render_V_Category(){
+		$.post('api/api_home.php?GET_Category', { token: 'test' }).done(function(data) {
+			var html = '';
+			$.each($.parseJSON(data), function( index, value ) {
+				html = html + '<div class="col-xs-18 col-sm-6 col-md-3">'+
+				'<div class="thumbnail">'+
+				'<img src="'+ value.Img +'">'+
+				'<div class="caption">'+
+				'<h4>'+ value.Title +'</h4>'+
+				'<a  class="btn btn-default btn-xs pull-right" role="button" onclick="OpenModal('+value.Id+')"><i class="glyphicon glyphicon-edit"></i> ทำข้อสอบ</a> '+
+				'<a href="#" class="btn btn-default btn-xs" role="button"></a> '+
+				'</div></div></div>';
+			});
+			v_category.html(html);
 		});
-
-		v_category.html(html);
 	}
 </script>
