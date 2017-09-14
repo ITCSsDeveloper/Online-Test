@@ -1,0 +1,99 @@
+<style type="text/css">
+
+.data-choice{
+  text-align: left;
+}
+</style>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <h2 id="timer" style="color: #63b359;">Time 10: 10</h2>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col-md-9">
+    <div id="question" class="well well-sm">
+      <h4>Small Well</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="well well-sm">
+      <h4>Small Well</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+ <div class="col-md-9">
+   <button id="choice1" class="btn btn-outline btn-default btn-block data-choice">Default1</button>
+   <button id="choice2" class="btn btn-outline btn-default btn-block data-choice">Default2</button>
+   <button id="choice3" class="btn btn-outline btn-default btn-block data-choice">Default3</button>
+   <button id="choice4" class="btn btn-outline btn-default btn-block data-choice">Default4</button>
+ </div>
+</div>
+
+
+<script type="text/javascript">
+  var timer = $('#timer');
+  var question = $('#question');
+  var Choices = $('.data-choice');
+  var countDownDate = new Date("Sep 14, 2017 23:50:00").getTime();
+
+  Choices.click(function(){
+    Choices.attr('class','btn btn-outline btn-default btn-block data-choice');
+    $(this).removeClass('btn-default').addClass('btn-warning');
+  });
+
+  function BlockUI(){
+   $.blockUI({ message : '<h2>หมดเวลา ระบบกำลังส่งคำตอบ <br><br> โปรดรอสักครู่ .... </h2>',
+        css: { border: 'none', 
+              padding: '15px', 
+              backgroundColor: '#000', 
+              '-webkit-border-radius': '10px', 
+              '-moz-border-radius': '10px', 
+              opacity: 1, 
+              color: '#fff' }}); 
+
+   setTimeout(function(){  }, 2000);
+ }
+</script>
+
+<script>
+  var xInterval = 0;
+  var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    timer.html(hours + " ชั่วโมง "+ minutes + " นาที " + seconds + " วินาที ");
+
+    if(hours == 0 && minutes <= 5) 
+      if(timer.css('color') != 'red')
+        timer.css('color','red');
+
+      if(xInterval <= 0)
+       xInterval = 1000;
+
+     if (distance < 0) {
+      clearInterval(x);
+      timer.html("หมดเวลา");
+      timer.css('color','red');
+      BlockUI();
+    }
+  }, xInterval);
+</script>

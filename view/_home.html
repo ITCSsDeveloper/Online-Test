@@ -12,15 +12,10 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">หน้าหลัก</a></li>
-					<li><a href="#">ทำแบบทดสอบ</a></li>
-					<li><a href="#">ดูประวัติการทำข้อสอบ</a></li>
-					<li><a href="#">จัดการข้อสอบ</a></li>
-					<li><a href="#">จัดการผู้ใช้งาน</a></li>
+					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="./">Ratchanon <small>(Admin)</small></a></li>
-					<li><a href="../navbar-fixed-top/">Logout</a></li>
+					
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->
@@ -34,7 +29,6 @@
 	<label>แบบทดสอบทั่วไป</label>
 	<div class="row" id="v_category">Loading...</div>
 </div><!-- End of Container -->
-
 
 
 
@@ -56,8 +50,6 @@
 </div>
 
 
-
-
 <script>
 	var v_category;
 	var myModal;
@@ -68,10 +60,24 @@
 		Render_V_Category()
 	});
 
-	function OpenModal(category_id){
-		myModal.modal();
-		myModal.find('.modal-title').html('DOM')
-		myModal.find('.modal-body').html('DOM')
+	function OpenModal(category_id) {
+		$.post('api/api_home.php?GET_Category', { token: 'test' }).done(function(data) {
+			var html = ''
+			$.each($.parseJSON(data), function( index, value ) {
+				html = html + '<div class="col-xs-18 col-sm-6 col-md-3">'+
+				'<div class="thumbnail">'+
+				'<img src="'+ value.Img +'">'+
+				'<div class="caption">'+
+				'<h4>'+ value.Title +'</h4>'+
+				'<a  class="btn btn-default btn-xs pull-right" role="button" onclick="OpenModal('+value.Id+')"><i class="glyphicon glyphicon-edit"></i> ทำข้อสอบ</a> '+
+				'<a href="#" class="btn btn-default btn-xs" role="button"></a> '+
+				'</div></div></div>'
+			})
+
+			myModal.modal()
+			myModal.find('.modal-title').html('DOM')
+			myModal.find('.modal-body').html('DOM')
+		})
 	}
 
 	function Render_V_Category(){
