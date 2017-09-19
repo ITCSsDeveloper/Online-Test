@@ -18,7 +18,7 @@
 		<div id="ajaxResult">Loading....	</div>
 
 		<footer class="footer text-center" style="margin-top: 100px;" >
-			<p>© 2017 ITCS's Dev.</p>
+			<p>© 2017 ITCS's Developer.</p>
 		</footer>
 	</div>
 
@@ -28,10 +28,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.7.0/sweetalert2.js"></script>
 	<script src="js/cookie_helper.js"></script>
 	<script>
-		var ajaxResult;
+		var ajaxResult = $('#ajaxResult');
+
 		$(function(){
-			ajaxResult = $('#ajaxResult');
-			ajaxResult.load('view/_exam.html');
+
+			$.ajaxSetup ({
+				cache: false
+			});
+
+			
+			ajaxResult.load('view/_summary.html');
+			//ajaxResult.load('view/_exam.html');
 		});
 	</script>
 </body>
