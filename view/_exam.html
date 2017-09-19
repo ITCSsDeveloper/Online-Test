@@ -1,5 +1,4 @@
 <style type="text/css">
-
 .data-choice{
   text-align: left;
 }
@@ -59,13 +58,18 @@
   var lblDisplayNo = $('#lblDisplayNo');
   var btnNext     = $('#btnNext');
 
-  var countDownDate = new Date("Sep 15, 2017 00:50:00").getTime();
+  var questionId = '00001';
+  var n = '10';
+  var nTotal = '';
+
+  var countDownDate = new Date("Sep 15, 2018 21:50:00").getTime();
 
   $(function() {
-    $.post('api/api_exam.php?GET_QUESTION', { token: 'test', questionId: '00001', questionNo: '10' }).done(function(data) {
+    $.post('api/api_exam.php?GET_QUESTION', { token: 'test', questionId: questionId, questionNo: n }).done(function(data) {
       data = $.parseJSON(data);
       question.html(data.question);
       lblDisplayNo.html(data.n+' / '+data.nTotal);
+
       $.each(data.choices, function(index, val) {
         $('#'+index).html(val)
       });
@@ -84,6 +88,9 @@
   btnNext.click(function(){
     $.post('api/api_exam.php?SEND_ANSWER', { token: 'test' }).done(function(data) {
     });
+
+    $.post('api/api_exam.php?SEND_ANSWER', { token: 'test' }).done(function(data) {
+    });
   });
 
   btnPrevious.click(function(){
@@ -91,7 +98,7 @@
   });
 
   function BlockUI(){
-   $.blockUI({ message : '<h3>หมดเวลา<br><br>ระบบกำลังส่งคำตอบ <br><br> โปรดรอสักครู่ .... </h3>',
+   $.blockUI({ message : '<h3>หมดเวลา<br><br>ระบบกำลังส่งคำตอบ<br><br> โปรดรอสักครู่ .... </h3>',
     css: { 
      width:'80%',
      left:'10%',
